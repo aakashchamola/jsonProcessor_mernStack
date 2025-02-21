@@ -9,14 +9,28 @@ const InputForm = ({ setApiResponse }) => {
     e.preventDefault();
 
     try {
-      const parsedInput = JSON.parse(jsonInput);
+      // Clean input: Remove non-printable characters and replace smart quotes with regular quotes
+      let cleanedInput = jsonInput
+        .trim()
+        .replace(/[\u201C\u201D]/g, '"') // Convert curly quotes to standard quotes
+        .replace(/[\u2018\u2019]/g, "'"); // Convert curly single quotes to standard single quotes
+
+      // Try to parse the input
+      const parsedInput = JSON.parse(cleanedInput);
 
       if (!parsedInput.data || !Array.isArray(parsedInput.data)) {
         throw new Error("Invalid JSON structure! Ensure it has a 'data' array.");
       }
 
       setError("");
-      const response = await axios.post(process.env.REACT_APP_BACKEND_URL, parsedInput);
+
+      // ✅ Fix: Ensure correct backend URL
+      const backendURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001/bfhl";
+
+      console.log("Making API request to:", backendURL);
+
+      // Make API request
+      const response = await axios.post(backendURL, parsedInput);
       setApiResponse(response.data);
 
     } catch (err) {
