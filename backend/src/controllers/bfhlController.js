@@ -15,12 +15,11 @@ const handlePostRequest = (req, res) => {
 
         return res.status(200).json({
             is_success: true,
-            user_id: "john_doe_17091999",
-            email: "john@xyz.com",
-            roll_number: "ABCD123",
+            user_id: "aakash_chamola_28102003",
+            email: "2237313.it.cec@cgc.edu.in",
+            roll_number: "2237313",
             ...processedData
         });
-
     } catch (error) {
         return res.status(500).json({
             is_success: false,
