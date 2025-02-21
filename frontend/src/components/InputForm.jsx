@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+
 const InputForm = ({ setApiResponse }) => {
   const [jsonInput, setJsonInput] = useState("");
   const [error, setError] = useState("");
@@ -25,7 +26,7 @@ const InputForm = ({ setApiResponse }) => {
       setError("");
 
       // ✅ Fix: Ensure correct backend URL
-      const backendURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001/bfhl";
+      const backendURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001/bfhl";
 
       console.log("Making API request to:", backendURL);
 
@@ -39,9 +40,10 @@ const InputForm = ({ setApiResponse }) => {
   };
 
   return (
-    <div>
-      <h2>API Input</h2>
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
+      <h2 className="text-xl font-semibold mb-4 text-gray-700">API Input</h2>
       <textarea
+        className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={jsonInput}
         onChange={(e) => setJsonInput(e.target.value)}
         placeholder='{"data":["A","C","z"]}'
@@ -49,8 +51,13 @@ const InputForm = ({ setApiResponse }) => {
         cols={50}
       />
       <br />
-      <button onClick={handleSubmit}>Submit</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
 };
